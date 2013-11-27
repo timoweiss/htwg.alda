@@ -103,6 +103,9 @@ public class AdjacencyListUndirectedGraph<V> implements UndirectedGraph<V> {
 
 	@Override
 	public List<V> getAdjacentVertexList(V v) {
+		if (!containsVertex(v)) {
+			throw new IllegalArgumentException();
+		}
 		LinkedList<V> adjVertexList = new LinkedList<V>();
 		Set<V> keys = adjacencyList.get(v).keySet();
 		for (V x : keys) {

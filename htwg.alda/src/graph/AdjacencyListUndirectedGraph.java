@@ -1,85 +1,136 @@
 package graph;
 
+import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
 
-public class AdjacencyListUndirectedGraph implements UndirectedGraph {
+public class AdjacencyListUndirectedGraph<V> implements UndirectedGraph<V> {
 
+	private HashMap<V, HashMap<V, Double>> adjacencyList;
+	private LinkedList<Edge<V>> edgeList = new LinkedList<Edge<V>>();
+
+	public AdjacencyListUndirectedGraph() {
+		adjacencyList = new HashMap<V, HashMap<V, Double>>();
+	}
+
+	// returns true falls knoten nicht vorhanden und fügt knoten ein
 	@Override
-	public boolean addVertex(Object v) {
-		// TODO Auto-generated method stub
+	public boolean addVertex(V v) {
+		if (!containsVertex(v)) {
+			adjacencyList.put(v, new HashMap<V, Double>());
+			return true;
+		}
 		return false;
 	}
 
 	@Override
-	public boolean addEdge(Object v, Object w) {
-		// TODO Auto-generated method stub
-		return false;
+	public boolean addEdge(V v, V w) {
+		return addEdge(v, w, 1.0);
+	}
+
+	// TODO exception + return false??????
+	@Override
+	public boolean addEdge(V v, V w, double weight) {
+		if (!containsVertex(v) && (!containsVertex(w)) && (v == w)) {
+			throw new IllegalArgumentException();
+		} else if (containsEdge(v, w)) {
+			return false;
+		}
+
+		adjacencyList.get(v).put(w, weight);
+		adjacencyList.get(w).put(v, weight);
+		edgeList.add(new Edge(v, w, weight));
+		return true;
+	}
+
+	// returns true falls Knoten vorhanden ist
+	@Override
+	public boolean containsVertex(V v) {
+		return adjacencyList.containsKey(v);
 	}
 
 	@Override
-	public boolean addEdge(Object v, Object w, double weight) {
-		// TODO Auto-generated method stub
-		return false;
+	public boolean containsEdge(V v, V w) {
+
+		if (!containsVertex(v) && (!containsVertex(w))) {
+			throw new IllegalArgumentException();
+		}
+
+		return (adjacencyList.get(v).containsKey(w));
+
 	}
 
 	@Override
-	public boolean containsVertex(Object v) {
-		// TODO Auto-generated method stub
-		return false;
-	}
+	public double getWeight(V v, V w) {
+		if (!containsVertex(v) && (!containsVertex(w))) {
+			throw new IllegalArgumentException();
+		}
 
-	@Override
-	public boolean containsEdge(Object v, Object w) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public double getWeight(Object v, Object w) {
-		// TODO Auto-generated method stub
-		return 0;
+		if (this.containsEdge(v, w)) {
+			return adjacencyList.get(v).get(w);
+		} else {
+			return 0;
+		}
 	}
 
 	@Override
 	public int getNumberOfVertexes() {
-		// TODO Auto-generated method stub
-		return 0;
+		return adjacencyList.size();
 	}
 
 	@Override
 	public int getNumberOfEdges() {
-		// TODO Auto-generated method stub
-		return 0;
+		return edgeList.size();
 	}
 
 	@Override
-	public List getVertexList() {
-		// TODO Auto-generated method stub
-		return null;
+	public List<V> getVertexList() {
+		LinkedList<V> vertexList = new LinkedList<V>();
+		Set<V> keys = adjacencyList.keySet();
+		for (V x : keys) {
+			vertexList.add(x);
+		}
+		return vertexList;
 	}
 
 	@Override
-	public List getEdgeList() {
-		// TODO Auto-generated method stub
-		return null;
+	public List<Edge<V>> getEdgeList() {
+		return edgeList;
 	}
 
 	@Override
-	public List getAdjacentVertexList(Object v) {
-		// TODO Auto-generated method stub
-		return null;
+	public List<V> getAdjacentVertexList(V v) {
+		LinkedList<V> adjVertexList = new LinkedList<V>();
+		Set<V> keys = adjacencyList.get(v).keySet();
+		for (V x : keys) {
+			adjVertexList.add(x);
+		}
+		return adjVertexList;
 	}
 
 	@Override
-	public List getIncidentEdgeList(Object v) {
-		// TODO Auto-generated method stub
-		return null;
+	public List<Edge<V>> getIncidentEdgeList(V v) {
+		if (!containsVertex(v)) {
+			throw new IllegalArgumentException();
+		}
+		
+		LinkedList<Edge<V>> incidentEdgeList = new LinkedList<Edge<V>>();
+		for (Edge<V> x : edgeList) {
+			if (x.getSource().equals(v)) {
+				incidentEdgeList.add(x);
+			}
+		}
+		return incidentEdgeList;
 	}
 
 	@Override
-	public int getDegree(Object v) {
-		// TODO Auto-generated method stub
-		return 0;
+	public int getDegree(V v) {
+		if (!containsVertex(v)) {
+			throw new IllegalArgumentException();
+		}
+		
+		return getIncidentEdgeList(v).size();
 	}
 
 }

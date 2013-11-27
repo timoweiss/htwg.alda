@@ -15,7 +15,6 @@ public class GraphTraversion {
 		List<V> visited = new LinkedList<V>();
 		depthFirstSearchR(g, s, visited);
 		return visited;
-		
 	}
 	
 	private static <V> void depthFirstSearchR(Graph<V> g, V s, List<V> v) {

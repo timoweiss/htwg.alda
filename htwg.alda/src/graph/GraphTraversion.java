@@ -1,7 +1,10 @@
 package graph;
 
+import java.util.ArrayDeque;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.Queue;
 
 public class GraphTraversion {
@@ -49,7 +52,32 @@ public class GraphTraversion {
 	}
 	
 	// #3
-	
+	public static <V> List<V> topologicalSort(DirectedGraph<V> g) {
+        List<V> topologicalSortedList = new LinkedList<>();
+        Map<V, Integer> inDegree = new HashMap<>();
+        Queue<V> q = new ArrayDeque<>();
+        for (V v : g.getVertexList()) {
+                inDegree.put(v, g.getInDegree(v));
+                if (inDegree.get(v) == 0) {
+                        q.add(v);
+                }
+        }
+        while (!q.isEmpty()) {
+                V v = q.remove();
+                topologicalSortedList.add(v);
+                for (V w : g.getSuccessorVertexList(v)) {
+                        inDegree.put(w, inDegree.get(w) - 1);
+
+                        if (inDegree.get(w) == 0) {
+                                q.add(w);
+                        }
+                }
+        }
+        if (topologicalSortedList.size() != g.getNumberOfVertexes()) {
+                return null;
+        }
+        return topologicalSortedList;
+}
 	
 	
 

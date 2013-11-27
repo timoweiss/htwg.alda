@@ -128,23 +128,38 @@ public class AdjacencyListDirectedGraph<V> implements DirectedGraph<V>{
 	
 	@Override
 	public List<V> getPredecessorVertexList(V v) {
-		// TODO Auto-generated method stub
-		return null;
+		if (!containsVertex(v)) {
+			throw new IllegalArgumentException();
+		}
+		LinkedList<V> prevVs = new LinkedList<V>();
+		for(V x : prevAdjacencyList.get(v).keySet()) {
+			prevVs.add(x);
+		}
+		return prevVs;
 	}
+	
+	
 	@Override
 	public List<V> getSuccessorVertexList(V v) {
-		// TODO Auto-generated method stub
-		return null;
+		return getAdjacentVertexList(v);
 	}
 	@Override
 	public List<Edge<V>> getOutgoingEdgeList(V v) {
-		// TODO Auto-generated method stub
-		return null;
+		return getIncidentEdgeList(v);
 	}
 	@Override
 	public List<Edge<V>> getIncomingEdgeList(V v) {
-		// TODO Auto-generated method stub
-		return null;
+		if (!containsVertex(v)) {
+			throw new IllegalArgumentException();
+		}
+		
+		LinkedList<Edge<V>> incomingEdgeList = new LinkedList<Edge<V>>();
+		for (Edge<V> x : edgeList) {
+			if (x.getTarget().equals(v)) {
+				incomingEdgeList.add(x);
+			}
+		}
+		return incomingEdgeList;
 	}
 	
 	

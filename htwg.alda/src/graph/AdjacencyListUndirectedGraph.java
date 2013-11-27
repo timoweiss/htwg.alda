@@ -14,7 +14,7 @@ public class AdjacencyListUndirectedGraph<V> implements UndirectedGraph<V> {
 		adjacencyList = new HashMap<V, HashMap<V, Double>>();
 	}
 
-	// returns true falls knoten nicht vorhanden und fügt knoten ein
+	// returns true falls knoten nicht vorhanden und fÃ¼gt knoten ein
 	@Override
 	public boolean addVertex(V v) {
 		if (!containsVertex(v)) {
@@ -32,15 +32,16 @@ public class AdjacencyListUndirectedGraph<V> implements UndirectedGraph<V> {
 	// TODO exception + return false??????
 	@Override
 	public boolean addEdge(V v, V w, double weight) {
-		if (!containsVertex(v) && (!containsVertex(w)) && (v == w)) {
+		if (!containsVertex(v) || !containsVertex(w) || (v == w)) {
 			throw new IllegalArgumentException();
-		} else if (containsEdge(v, w)) {
+		} else if (containsEdge(v, w) || containsEdge(w, v)) {
 			return false;
 		}
 
 		adjacencyList.get(v).put(w, weight);
 		adjacencyList.get(w).put(v, weight);
-		edgeList.add(new Edge(v, w, weight));
+		edgeList.add(new Edge<V>(v, w, weight));
+		edgeList.add(new Edge<V>(w, v, weight));
 		return true;
 	}
 
@@ -79,9 +80,10 @@ public class AdjacencyListUndirectedGraph<V> implements UndirectedGraph<V> {
 		return adjacencyList.size();
 	}
 
+	//TODO ask Mr. Bittel
 	@Override
 	public int getNumberOfEdges() {
-		return edgeList.size();
+		return edgeList.size()/2;
 	}
 
 	@Override

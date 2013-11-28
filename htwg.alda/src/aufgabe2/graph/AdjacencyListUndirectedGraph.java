@@ -1,4 +1,4 @@
-package graph;
+package aufgabe2.graph;
 
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -29,7 +29,6 @@ public class AdjacencyListUndirectedGraph<V> implements UndirectedGraph<V> {
 		return addEdge(v, w, 1.0);
 	}
 
-	// TODO exception + return false??????
 	@Override
 	public boolean addEdge(V v, V w, double weight) {
 		if (!containsVertex(v) || !containsVertex(w) || (v == w)) {
@@ -80,7 +79,6 @@ public class AdjacencyListUndirectedGraph<V> implements UndirectedGraph<V> {
 		return adjacencyList.size();
 	}
 
-	//TODO ask Mr. Bittel
 	@Override
 	public int getNumberOfEdges() {
 		return edgeList.size()/2;

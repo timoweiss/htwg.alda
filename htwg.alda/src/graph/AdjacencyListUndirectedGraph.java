@@ -54,7 +54,7 @@ public class AdjacencyListUndirectedGraph<V> implements UndirectedGraph<V> {
 	@Override
 	public boolean containsEdge(V v, V w) {
 
-		if (!containsVertex(v) && (!containsVertex(w))) {
+		if (!containsVertex(v) || (!containsVertex(w))) {
 			throw new IllegalArgumentException();
 		}
 
@@ -64,7 +64,7 @@ public class AdjacencyListUndirectedGraph<V> implements UndirectedGraph<V> {
 
 	@Override
 	public double getWeight(V v, V w) {
-		if (!containsVertex(v) && (!containsVertex(w))) {
+		if (!containsVertex(v) || (!containsVertex(w))) {
 			throw new IllegalArgumentException();
 		}
 

@@ -53,12 +53,13 @@ public class AdjacencyListDirectedGraph<V> implements DirectedGraph<V>{
 	
 	@Override
 	public boolean containsVertex(V v) {
-		//TODO pruefung in beide richtungen???
 		return nextAdjacencyList.containsKey(v);		
 	}
 	@Override
 	public boolean containsEdge(V v, V w) {
-		//TODO pruefung in beide richtungen???
+		if (!containsVertex(v) || (!containsVertex(w))) {
+			throw new IllegalArgumentException();
+		}
 		return nextAdjacencyList.get(v).containsKey(w);
 	}
 	@Override
@@ -116,12 +117,18 @@ public class AdjacencyListDirectedGraph<V> implements DirectedGraph<V>{
 	
 	@Override
 	public int getInDegree(V v) {
+		if (!containsVertex(v)) {
+			throw new IllegalArgumentException();
+		}
 		return prevAdjacencyList.get(v).size();
 	}
 	
 	
 	@Override
 	public int getOutDegree(V v) {
+		if (!containsVertex(v)) {
+			throw new IllegalArgumentException();
+		}
 		return nextAdjacencyList.get(v).size();
 	}
 	

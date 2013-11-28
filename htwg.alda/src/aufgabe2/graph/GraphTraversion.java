@@ -1,4 +1,4 @@
-package graph;
+package aufgabe2.graph;
 
 import java.util.ArrayDeque;
 import java.util.HashMap;

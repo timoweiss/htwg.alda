@@ -1,4 +1,4 @@
-package graph;
+package aufgabe2.graph;
 
 public class main {
 

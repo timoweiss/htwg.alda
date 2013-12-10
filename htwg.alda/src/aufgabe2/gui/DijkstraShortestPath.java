@@ -1,14 +1,13 @@
 package aufgabe2.gui;
 
+import java.util.Collections;
 import java.util.Comparator;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import java.util.PriorityQueue;
-import java.util.Queue;
 import java.util.TreeMap;
 
 import aufgabe2.graph.Graph;
-
 
 public class DijkstraShortestPath<V> {
 
@@ -34,20 +33,41 @@ public class DijkstraShortestPath<V> {
 		return 0;
 	}
 
-	public boolean searchAllShortestPahts(V s) {
-
-		Queue<VertexDistance<V>> candidates = new PriorityQueue<VertexDistance<V>>(
-				graph.getNumberOfVertexes(), new VertexComparator());
+	public boolean searchAllShortestPaths(V s) {
+		LinkedList<VertexDistance<V>> candidates = new LinkedList<>();
 
 		for (V vertex : graph.getVertexList()) {
 			distance.put(vertex, Double.POSITIVE_INFINITY);
 			prevVertexes.put(vertex, null);
 		}
+		
 		distance.put(s, 0.0);
 		candidates.add(new VertexDistance<V>(s, distance.get(s)));
-
+		Collections.sort(candidates, new VertexComparator());
+		
+		
 		while (!candidates.isEmpty()) {
+
+//			Double min = Double.POSITIVE_INFINITY;
+//
+//			for (VertexDistance<V> x : candidates) {
+//
+//				if (v == null) {
+//					v = x.vertex;
+//					System.out.println("v == null");
+//				}
+//
+//				if (x.value < min) {
+//					min = x.value;
+//					v = x.vertex;
+//					System.out.println("das andere");
+//
+//				}
+//
+//			}
+//			
 			V v = candidates.poll().vertex;
+			// V v = candidates.poll().vertex;
 
 			for (V w : graph.getAdjacentVertexList(v)) {
 				if (distance.get(w) == Double.POSITIVE_INFINITY) {

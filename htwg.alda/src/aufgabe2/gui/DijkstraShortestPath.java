@@ -27,29 +27,38 @@ public class DijkstraShortestPath<V> {
 	}
 
 	public boolean searchShortestPath(V s, V g) {
-//		this.beginning = s;
-//		this.end = g;
+//		just copied from public boolean searchAllShortestPaths(V s), because offergeld told so
+//		LinkedList<V> candidates = new LinkedList<>();
 //
-//		// Alle vertexe addden
-//
-//		for (V x : graph.getVertexList()) {
-//			distance.put(x, Double.MAX_VALUE);
+//		for (V vertex : graph.getVertexList()) {
+//			distance.put(vertex, Double.POSITIVE_INFINITY);
+//			prevVertexes.put(vertex, null);
 //		}
 //
-//		// Startknoten setzen
 //		distance.put(s, 0.0);
+//		candidates.add(s);
 //
-//		V tmp = null;
-//		double distance_max = Double.MAX_VALUE;
+//		while (!candidates.isEmpty()) {
 //
-//		for (java.util.Map.Entry<V, Double> k : distance.entrySet()) {
-//			// if(k.getValue().Candidate) {
+//			V v = candidates.get(0);
 //
-//			if (k.getValue() < distance_max) {
-//				tmp = k.getKey();
-//				distance_max = k.getValue();
+//			for (V x : candidates) {
+//				if (distance.get(x) < distance.get(v)) {
+//					v = x;
+//				}
 //			}
-//			// }
+//
+//			for (V w : graph.getAdjacentVertexList(v)) {
+//				if (distance.get(w) == Double.POSITIVE_INFINITY) {
+//					candidates.add(w);
+//				}
+//
+//				if ((distance.get(v) + graph.getWeight(v, w)) < distance.get(w)) {
+//					prevVertexes.put(w, v);
+//					distance.put(w, (distance.get(v) + graph.getWeight(v, w)));
+//				}
+//
+//			}
 //		}
 		return false;
 
@@ -74,28 +83,27 @@ public class DijkstraShortestPath<V> {
 
 		distance.put(s, 0.0);
 		candidates.add(s);
-		
 
 		while (!candidates.isEmpty()) {
 
 			V v = candidates.get(0);
-			
+
 			for (V x : candidates) {
 				if (distance.get(x) < distance.get(v)) {
-					v = x;					
+					v = x;
 				}
 			}
-			
+
 			for (V w : graph.getAdjacentVertexList(v)) {
 				if (distance.get(w) == Double.POSITIVE_INFINITY) {
 					candidates.add(w);
 				}
-				
+
 				if ((distance.get(v) + graph.getWeight(v, w)) < distance.get(w)) {
 					prevVertexes.put(w, v);
 					distance.put(w, (distance.get(v) + graph.getWeight(v, w)));
 				}
-				
+
 			}
 		}
 		return false;
@@ -109,7 +117,4 @@ public class DijkstraShortestPath<V> {
 		return 0;
 	}
 
-	
-
-	
 }

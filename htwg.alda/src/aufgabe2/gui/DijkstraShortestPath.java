@@ -27,30 +27,31 @@ public class DijkstraShortestPath<V> {
 	}
 
 	public boolean searchShortestPath(V s, V g) {
-		this.beginning = s;
-		this.end = g;
-
-		// Alle vertexe addden
-
-		for (V x : graph.getVertexList()) {
-			distance.put(x, Double.MAX_VALUE);
-		}
-
-		// Startknoten setzen
-		distance.put(s, 0.0);
-
-		V tmp = null;
-		double distance_max = Double.MAX_VALUE;
-
-		for (java.util.Map.Entry<V, Double> k : distance.entrySet()) {
-			// if(k.getValue().Candidate) {
-
-			if (k.getValue() < distance_max) {
-				tmp = k.getKey();
-				distance_max = k.getValue();
-			}
-			// }
-		}
+//		this.beginning = s;
+//		this.end = g;
+//
+//		// Alle vertexe addden
+//
+//		for (V x : graph.getVertexList()) {
+//			distance.put(x, Double.MAX_VALUE);
+//		}
+//
+//		// Startknoten setzen
+//		distance.put(s, 0.0);
+//
+//		V tmp = null;
+//		double distance_max = Double.MAX_VALUE;
+//
+//		for (java.util.Map.Entry<V, Double> k : distance.entrySet()) {
+//			// if(k.getValue().Candidate) {
+//
+//			if (k.getValue() < distance_max) {
+//				tmp = k.getKey();
+//				distance_max = k.getValue();
+//			}
+//			// }
+//		}
+		return false;
 
 	}
 

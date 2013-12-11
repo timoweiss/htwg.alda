@@ -1,6 +1,5 @@
 package aufgabe2.graph;
 
-import aufgabe2.gui.DijkstraShortestPath;
 
 public class DijTest {
 	public static void main(final String args[]) {

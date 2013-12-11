@@ -1,4 +1,4 @@
-package aufgabe2.gui;
+package aufgabe2.graph;
 
 import java.security.KeyStore.Entry;
 import java.util.Collections;
@@ -8,18 +8,16 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
-import aufgabe2.graph.Graph;
-
 public class DijkstraShortestPath<V> {
 
 	private Map<V, Double> distance;
 	private Map<V, V> prevVertexes;
 	private Graph<V> graph;
+	
+	private V endknoten = null;
 
 	boolean searchShortestPath = false;
-	V beginning;
-	V end;
-
+	
 	public DijkstraShortestPath(Graph<V> g) {
 		this.graph = g;
 		this.prevVertexes = new TreeMap<V, V>();
@@ -27,49 +25,22 @@ public class DijkstraShortestPath<V> {
 	}
 
 	public boolean searchShortestPath(V s, V g) {
-//		just copied from public boolean searchAllShortestPaths(V s), because offergeld told so
-//		LinkedList<V> candidates = new LinkedList<>();
-//
-//		for (V vertex : graph.getVertexList()) {
-//			distance.put(vertex, Double.POSITIVE_INFINITY);
-//			prevVertexes.put(vertex, null);
-//		}
-//
-//		distance.put(s, 0.0);
-//		candidates.add(s);
-//
-//		while (!candidates.isEmpty()) {
-//
-//			V v = candidates.get(0);
-//
-//			for (V x : candidates) {
-//				if (distance.get(x) < distance.get(v)) {
-//					v = x;
-//				}
-//			}
-//
-//			for (V w : graph.getAdjacentVertexList(v)) {
-//				if (distance.get(w) == Double.POSITIVE_INFINITY) {
-//					candidates.add(w);
-//				}
-//
-//				if ((distance.get(v) + graph.getWeight(v, w)) < distance.get(w)) {
-//					prevVertexes.put(w, v);
-//					distance.put(w, (distance.get(v) + graph.getWeight(v, w)));
-//				}
-//
-//			}
-//		}
-		return false;
-
+		if (searchAllShortestPaths(s) && distance.get(g) < Double.MAX_VALUE) {
+			endknoten = g;
+			
+			return true;
+		} else {
+			return false;
+		}
+		
 	}
 
 	public List<V> getShortestPath() {
-		return null;
+		return getShortestPathTo(endknoten);
 	}
 
 	public double getDistance() {
-		return 0;
+		return getDistanceTo(endknoten);
 	}
 
 	public boolean searchAllShortestPaths(V s) {
@@ -93,6 +64,7 @@ public class DijkstraShortestPath<V> {
 					v = x;
 				}
 			}
+			candidates.remove(v);
 
 			for (V w : graph.getAdjacentVertexList(v)) {
 				if (distance.get(w) == Double.POSITIVE_INFINITY) {
@@ -105,16 +77,33 @@ public class DijkstraShortestPath<V> {
 				}
 
 			}
+			
 		}
-		return false;
+		
+		for (V x: distance.keySet()) {
+			if (distance.get(x) == Double.MAX_VALUE) {
+				return false;
+			}
+		}
+		return true;
 	}
 
 	public List<V> getShortestPathTo(V g) {
-		return null;
+		V vertex = g;
+		LinkedList<V> liste = new LinkedList<>();
+		liste.add(vertex);
+		
+		while (prevVertexes.get(vertex) != null) {
+			
+			liste.add(prevVertexes.get(vertex));
+			vertex = prevVertexes.get(vertex);
+			
+		}
+		return liste;
 	}
 
 	public double getDistanceTo(V g) {
-		return 0;
+		return distance.get(g);
 	}
 
 }

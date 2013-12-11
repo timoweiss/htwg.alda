@@ -1,5 +1,6 @@
 package aufgabe2.gui;
 
+import java.security.KeyStore.Entry;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.LinkedList;
@@ -15,6 +16,10 @@ public class DijkstraShortestPath<V> {
 	private Map<V, V> prevVertexes;
 	private Graph<V> graph;
 
+	boolean searchShortestPath = false;
+	V beginning;
+	V end;
+
 	public DijkstraShortestPath(Graph<V> g) {
 		this.graph = g;
 		this.prevVertexes = new TreeMap<V, V>();
@@ -22,7 +27,31 @@ public class DijkstraShortestPath<V> {
 	}
 
 	public boolean searchShortestPath(V s, V g) {
-		return false;
+		this.beginning = s;
+		this.end = g;
+
+		// Alle vertexe addden
+
+		for (V x : graph.getVertexList()) {
+			distance.put(x, Double.MAX_VALUE);
+		}
+
+		// Startknoten setzen
+		distance.put(s, 0.0);
+
+		V tmp = null;
+		double distance_max = Double.MAX_VALUE;
+
+		for (java.util.Map.Entry<V, Double> k : distance.entrySet()) {
+			// if(k.getValue().Candidate) {
+
+			if (k.getValue() < distance_max) {
+				tmp = k.getKey();
+				distance_max = k.getValue();
+			}
+			// }
+		}
+
 	}
 
 	public List<V> getShortestPath() {
@@ -34,49 +63,38 @@ public class DijkstraShortestPath<V> {
 	}
 
 	public boolean searchAllShortestPaths(V s) {
-		LinkedList<VertexDistance<V>> candidates = new LinkedList<>();
+
+		LinkedList<V> candidates = new LinkedList<>();
 
 		for (V vertex : graph.getVertexList()) {
 			distance.put(vertex, Double.POSITIVE_INFINITY);
 			prevVertexes.put(vertex, null);
 		}
-		
+
 		distance.put(s, 0.0);
-		candidates.add(new VertexDistance<V>(s, distance.get(s)));
-		Collections.sort(candidates, new VertexComparator());
+		candidates.add(s);
 		
-		
+
 		while (!candidates.isEmpty()) {
 
-//			Double min = Double.POSITIVE_INFINITY;
-//
-//			for (VertexDistance<V> x : candidates) {
-//
-//				if (v == null) {
-//					v = x.vertex;
-//					System.out.println("v == null");
-//				}
-//
-//				if (x.value < min) {
-//					min = x.value;
-//					v = x.vertex;
-//					System.out.println("das andere");
-//
-//				}
-//
-//			}
-//			
-			V v = candidates.poll().vertex;
-			// V v = candidates.poll().vertex;
-
+			V v = candidates.get(0);
+			
+			for (V x : candidates) {
+				if (distance.get(x) < distance.get(v)) {
+					v = x;					
+				}
+			}
+			
 			for (V w : graph.getAdjacentVertexList(v)) {
 				if (distance.get(w) == Double.POSITIVE_INFINITY) {
-					candidates.add(new VertexDistance<V>(w, distance.get(w)));
+					candidates.add(w);
 				}
+				
 				if ((distance.get(v) + graph.getWeight(v, w)) < distance.get(w)) {
 					prevVertexes.put(w, v);
 					distance.put(w, (distance.get(v) + graph.getWeight(v, w)));
 				}
+				
 			}
 		}
 		return false;
@@ -90,25 +108,7 @@ public class DijkstraShortestPath<V> {
 		return 0;
 	}
 
-	private static class VertexDistance<V> {
-		private V vertex;
-		private Double value;
+	
 
-		private VertexDistance(V v, Double value) {
-			this.vertex = v;
-			this.value = value;
-		}
-	}
-
-	private class VertexComparator implements Comparator<VertexDistance<V>> {
-		@Override
-		public int compare(VertexDistance<V> o1, VertexDistance<V> o2) {
-			if (o1.value > o2.value) {
-				return 1;
-			} else if (o1.value < o2.value) {
-				return -1;
-			}
-			return 0;
-		}
-	}
+	
 }

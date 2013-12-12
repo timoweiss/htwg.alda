@@ -10,18 +10,18 @@ import aufgabe2.sim.SYSimulation;
 
 public class TaxiMain {
 
-	public static void main(String[] args) throws IOException {
+	public static void main(String[] args) throws Exception {
 		UndirectedGraph<Integer> undirectedG = new AdjacencyListUndirectedGraph<>();
 		UndirectedGraph<Integer> gDij = new AdjacencyListUndirectedGraph<>();
 
 		// Linux
-		// File file = new
-		// File("Z:\git\htwg.alda\htwg.alda\src\aufgabe2\graph\ScotlandYard.txt");
+		//File file = new File("Z:\git\htwg.alda\htwg.alda500\src\aufgabe2\graph\ScotlandYard.txt");
 
 		// Windows
-		File file = new File(
-				"Z:/git/htwg.alda32323/htwg.alda/src/aufgabe2/graph/ScotlandYard.txt");
+		File file = new File("/rzhome/miknoch/git/htwg.alda500/htwg.alda/src/aufgabe2/graph/ScotlandYard.txt");
 
+
+		
 		readOnlyTaxi(file, undirectedG);
 		readAll(file, gDij);
 		
@@ -37,7 +37,7 @@ public class TaxiMain {
 		LinkedList<Integer> breadthList = new LinkedList<>(GraphTraversion.breadthFirstSearch(undirectedG, 1));
 		
 		DijkstraShortestPath<Integer> dijkstraPath = new DijkstraShortestPath(gDij);
-		dijkstraPath.searchShortestPath(1, 175);
+		dijkstraPath.searchShortestPath(189, 7);
 		
 		LinkedList<Integer> dijkstraPathList = new LinkedList<>(dijkstraPath.getShortestPath());
 		

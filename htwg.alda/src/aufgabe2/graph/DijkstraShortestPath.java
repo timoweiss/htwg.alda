@@ -17,6 +17,8 @@ public class DijkstraShortestPath<V> {
 	private V endknoten = null;
 
 	boolean searchShortestPath = false;
+	boolean searchAllShortestPaths = false;
+	
 	
 	public DijkstraShortestPath(Graph<V> g) {
 		this.graph = g;
@@ -25,9 +27,10 @@ public class DijkstraShortestPath<V> {
 	}
 
 	public boolean searchShortestPath(V s, V g) {
-		if (searchAllShortestPaths(s) && distance.get(g) < Double.MAX_VALUE) {
-			endknoten = g;
+		if (searchAllShortestPaths(g) && distance.get(s) < Double.MAX_VALUE) {
+			endknoten = s;
 			
+			searchShortestPath = true;
 			return true;
 		} else {
 			return false;
@@ -35,12 +38,20 @@ public class DijkstraShortestPath<V> {
 		
 	}
 
-	public List<V> getShortestPath() {
-		return getShortestPathTo(endknoten);
+	public List<V> getShortestPath() throws Exception {
+		if (searchShortestPath) {
+			return getShortestPathTo(endknoten);
+		} else {
+			throw new Exception("getShortestPathTo() nicht ausgeführt");
+		}
 	}
 
-	public double getDistance() {
-		return getDistanceTo(endknoten);
+	public double getDistance() throws Exception {
+		if (searchShortestPath) {
+			return getDistanceTo(endknoten);
+		} else {
+			throw new Exception("getShortestPathTo() nicht ausgeführt");
+		}
 	}
 
 	public boolean searchAllShortestPaths(V s) {
@@ -85,10 +96,16 @@ public class DijkstraShortestPath<V> {
 				return false;
 			}
 		}
+		
+		searchAllShortestPaths = true;
 		return true;
 	}
 
-	public List<V> getShortestPathTo(V g) {
+	public List<V> getShortestPathTo(V g) throws Exception {
+		if (!searchAllShortestPaths) {
+			throw new Exception("searchAllShortestPaths nicht ausgeführt!");
+		}
+		
 		V vertex = g;
 		LinkedList<V> liste = new LinkedList<>();
 		liste.add(vertex);
@@ -102,7 +119,11 @@ public class DijkstraShortestPath<V> {
 		return liste;
 	}
 
-	public double getDistanceTo(V g) {
+	public double getDistanceTo(V g) throws Exception {
+		if (!searchAllShortestPaths) {
+			throw new Exception("searchAllShortestPaths nicht ausgeführt!");
+		}
+		
 		return distance.get(g);
 	}
 
